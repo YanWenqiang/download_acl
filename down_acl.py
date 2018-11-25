@@ -17,7 +17,11 @@ def download_paper(folder, name, url):
 def get_url(folder):
     root_link = "https://aclanthology.info/events/acl-2018"
     root = "http://aclweb.org/anthology/"
-    r = requests.get(root_link)
+    headers = {
+        'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+    }
+
+    r = requests.get(root_link, headers = headers)
 
     if r.status_code == 200:
         soup = BeautifulSoup(r.text, "html5lib")
@@ -34,7 +38,7 @@ def get_url(folder):
                     url = a["href"]
                     paper_num = url.split("-")[-1]
             if strong and url:
-                download_paper(folder, paper_num + "_" + name, url)
+                download_paper(folder, paper_num + "_" + name + ".pdf", url)
                 print("current downloading paper ==> {}".format(name))
 
 
